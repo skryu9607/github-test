@@ -25,8 +25,6 @@ Bayesian approximation of the objective function that can be sampled efficiently
 
 '''
 
-
-
 def objective_function(x, noise= 0.1):
     noise = np.random.normal(loc=0,scale = noise)
     return(x**2*math.sin(5*math.pi*x)**6.0) + noise
@@ -40,8 +38,6 @@ y = [objective_function(i,0) for i in x]
 
 ynoise = [objective_function(i,0.1) for i in x]
 
-
-
 ix = np.argmax(x)
 print('Optima : x =%.3f , y = %.3f' % (x[ix], y[ix]))
 plt.scatter(x,ynoise)
@@ -50,7 +46,7 @@ plt.show()
 
 # Treat the problem as a regression predictive modeling problem with the data representing the input and the score representing the output to the model. 
 model = GaussianProcessRegressor()
-yhat = model.predict(X, return_std = True)
+yhat = model.predict(x, return_std = True)
 # Surrogate or approximation for the objective function
 # This funciton any time to estimate the cost of one or more samples.
 def surrogate(model,x):
@@ -58,5 +54,26 @@ def surrogate(model,x):
     with catch_warnings():
         simplefilter("ignore")
         return model.predict(x, return_std = True)
+def plot(x,y,model):
+    plt.scatter(x,y)
+    xsamples= np.asarray(np.arange(0, 1, 0.01))
+    xsamples = xsamples.reshape(len(x),1)
+    ysamples,_ = surrogate(model,x)
+    plt.plot(xsamples,ysamples)
+    plt.show()
+
+# sample the domain
+x = np.random(100)
+y = np.asarray([objective_function(i) for i in x])
+
+x = x.reshape(len(x),1)
+y = y.reshape(len(y),1)
+
+model = GaussianProcessRegressor()
+model.fit(x,y)
+plot(x,y,model)
+
+
+
 
 
