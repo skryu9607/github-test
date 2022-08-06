@@ -1,7 +1,6 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import math
-from matplotlib import pyplot as plt
 from warnings import catch_warnings
 from warnings import simplefilter
 from sklearn.gaussian_process import GaussianProcessRegressor
@@ -45,8 +44,6 @@ plt.plot(x,y)
 plt.show()
 
 # Treat the problem as a regression predictive modeling problem with the data representing the input and the score representing the output to the model. 
-model = GaussianProcessRegressor()
-yhat = model.predict(x, return_std = True)
 # Surrogate or approximation for the objective function
 # This funciton any time to estimate the cost of one or more samples.
 def surrogate(model,x):
@@ -57,13 +54,13 @@ def surrogate(model,x):
 def plot(x,y,model):
     plt.scatter(x,y)
     xsamples= np.asarray(np.arange(0, 1, 0.01))
-    xsamples = xsamples.reshape(len(x),1)
+    xsamples = xsamples.reshape(len(xsamples),1)
     ysamples,_ = surrogate(model,x)
     plt.plot(xsamples,ysamples)
     plt.show()
 
 # sample the domain
-x = np.random(100)
+x = np.random.random(100)
 y = np.asarray([objective_function(i) for i in x])
 
 x = x.reshape(len(x),1)
