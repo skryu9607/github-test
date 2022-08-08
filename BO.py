@@ -69,6 +69,13 @@ y = y.reshape(len(y),1)
 model = GaussianProcessRegressor()
 model.fit(x,y)
 plot(x,y,model)
+# Acquistion function : to interpret and score the response from the surrogate function.
+# BFGS Algorithm 
+def opt_acquisition(x,y,model):
+    xsamples = np.random.randon(100)
+    xsamples = xsamples.reshape(len(xsamples),1)
+    # calculate the acquistion function for each sample
+    scores = ac
 
 
 
