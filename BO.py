@@ -1,3 +1,4 @@
+from ctypes import sizeof
 from matplotlib import pyplot as plt
 import numpy as np
 import math
@@ -91,9 +92,14 @@ for i in range(100):
 plot(X,y,model)
 ix = np.argmax(y)
 print('Best result: x = %.3f, y = %.3f' %(X[ix],y[ix]))
+print(X.shape,y.shape)
+'''
+A plot is created showing the raw observations as dots and the surrogate function across
+the entire domain. In this case, the initial state has a good spread across the domain
+and the surrogate function has a bias towards the part of the domain where we know
+the optima is located. 
 
-
-
+'''
 
 
 
