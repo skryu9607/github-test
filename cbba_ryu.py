@@ -138,8 +138,10 @@ class CBBA(object):
         Create bundles for each agent
         '''
         epsilon = 1e-6
-        newbid = 0
+        newbid = False
         # Check if bundle is full
+        index_array = np.where(np.array(self.bundles_listp[idx_agent]) == -1)[0]
+         
         
 
 
