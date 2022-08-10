@@ -1,8 +1,11 @@
+from configparser import MAX_INTERPOLATION_DEPTH
 from dataclasses import field
+from turtle import end_fill
 import numpy as np
 import time
 import sys
 import json
+import copy
 import matplotlib as plt
 from dataclasses import dataclass, field
 from task import Task
@@ -94,14 +97,55 @@ class CBBA(object):
         self.agent_index_list = []
         for n in range(self.num_agents):
             self.agent_index_list.append(self.Agentlist[n].agent_id)
+#    def remove_from_list():
 
     def bundle(self, idx_agent:int):
         self.bundle_remove(idx_agent)
         new_bid_flag = self.bundle_add(idx_agent)
 
         return new_bid_flag
-    def bundle_add(self, idx_agent:int):
+    def bundle_remove(self,idx_agent: int):
+        '''
+        Update bundles after communication
+        For outbid agents, releases tasks from bundles
+        '''
+        out_bid_for_task = False
+        for j in range(self.max_depth):
+            if self.bundle_list[idx_agent][j] < 0:
+                break
+            else:
+                if self.winners_list[idx_agent][self.bundle_list[idx_agent][j]] != self.agent_index_list[idx_agent]:
+                    out_bid_for_task = True
+                if out_bid_for_task:
+                    # The agent has lost a previous task, release this one too
+                    if self.winners_list[idx_agent][self.bundle_list[j]] == idx_agent:
+                        # Remove from winner list if in there
+                        self.winners_list[self.bundle_list[j]] = 0
+                        self.winner_bid_list[self.bundle_list[j]] = 0
+                    idx_path = copy.deepcopy(self.path_list[idx_agent])
+                    idx_remove = idx_path.index(self.bundle_list[idx_agent][j])
+                    
+                    del self.path_list[idx_agent][idx_remove]
+                    self.path_list[idx_agent].append(-1)
+                    del self.times_list[idx_agent][idx_remove]
+                    self.path_list[idx_agent].append(-1)
+                    del self.scores_list[idx_agent][idx_remove]
+                    self.scores_list[idx_agent].append(-1)
 
+                    self.bundle_list[idx_agent][j] = -1
+    def bundle_add(self, idx_agent:int):
+        '''
+        Create bundles for each agent
+        '''
+        epsilon = 1e-6
+        newbid = 0
+        # Check if bundle is full
+        
+
+
+
+
+        
 
 
 
