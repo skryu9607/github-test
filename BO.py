@@ -79,7 +79,7 @@ model.fit(X,y)
 # Plot before handle
 plot(X,y,model)
 # Perform the optimization process
-for i in range(100):
+for i in range(1000):
     # Select the next point to sample
     x = opt_acquisition(X,y,model)
     actual = objective_function(x)
