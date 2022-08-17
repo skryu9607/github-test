@@ -1,10 +1,8 @@
-import numpy as np
-row = 4
-col = 5
-g = [[1,1] * col for _ in range(row)]
-g_array = np.asarray(g)
-g = g.reshape(-1,5)
-print(g)
-print(g_array.shape) 
-
-
+def get_natural_number():
+    n = 0
+    while True:
+        n += 1
+        yield n
+g = get_natural_number()
+for _ in range(1,100):
+    print(next(g))
